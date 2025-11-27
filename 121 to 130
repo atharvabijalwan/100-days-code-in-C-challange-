@@ -1,0 +1,260 @@
+// Q121 - Create info.txt, write user's name and age using fprintf(), show success message.
+#include <stdio.h>
+#include <string.h>
+
+int main_Q121(void){
+    char name[200]; 
+    int age;
+    fgets(name,200,stdin);
+    scanf("%d",&age);
+    name[strcspn(name,"\n")] = 0;
+
+    FILE *fp = fopen("info.txt","w");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    fprintf(fp,"%s\n%d\n",name,age);
+    fclose(fp);
+
+    printf("Data saved successfully.\n");
+    return 0;
+}
+int main(){ return main_Q121(); }
+
+// --------------------------------------------------------------
+
+// Q122 - Open an existing file, print all contents using fgets/fgetc.
+#include <stdio.h>
+#include <string.h>
+
+int main_Q122(void){
+    char file[200];
+    fgets(file,200,stdin);
+    file[strcspn(file,"\n")] = 0;
+
+    FILE *fp = fopen(file,"r");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    int c;
+    while((c=fgetc(fp))!=EOF) putchar(c);
+    fclose(fp);
+    return 0;
+}
+int main122(){ return main_Q122(); }
+
+// --------------------------------------------------------------
+
+// Q123 - Count characters, words, and lines in a text file.
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int main_Q123(void){
+    char file[200];
+    fgets(file,200,stdin);
+    file[strcspn(file,"\n")] = 0;
+
+    FILE *fp = fopen(file,"r");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    int c, chars=0, words=0, lines=0, in=0;
+    while((c=fgetc(fp))!=EOF){
+        chars++;
+        if(c=='\n') lines++;
+        if(!isspace(c)){
+            if(!in){ words++; in=1; }
+        } else in=0;
+    }
+
+    fclose(fp);
+    printf("%d %d %d\n", chars, words, lines);
+    return 0;
+}
+int main123(){ return main_Q123(); }
+
+// --------------------------------------------------------------
+
+// Q124 - Copy content from source file to destination file using fgetc/fputc.
+#include <stdio.h>
+#include <string.h>
+
+int main_Q124(void){
+    char src[200], dst[200];
+    fgets(src,200,stdin);
+    fgets(dst,200,stdin);
+
+    src[strcspn(src,"\n")] = 0;
+    dst[strcspn(dst,"\n")] = 0;
+
+    FILE *fs = fopen(src,"r");
+    if(!fs){ printf("Error\n"); return 0; }
+
+    FILE *fd = fopen(dst,"w");
+    if(!fd){ fclose(fs); printf("Error\n"); return 0; }
+
+    int ch;
+    while((ch=fgetc(fs))!=EOF) fputc(ch,fd);
+
+    fclose(fs);
+    fclose(fd);
+
+    return 0;
+}
+int main124(){ return main_Q124(); }
+
+// --------------------------------------------------------------
+
+// Q125 - Append a new line to an existing file.
+#include <stdio.h>
+#include <string.h>
+
+int main_Q125(void){
+    char file[200], line[10005];
+    fgets(file,200,stdin);
+    file[strcspn(file,"\n")] = 0;
+
+    fgets(line,10005,stdin);
+
+    FILE *fp = fopen(file,"a");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    fprintf(fp,"%s",line);
+
+    fclose(fp);
+    return 0;
+}
+int main125(){ return main_Q125(); }
+
+// --------------------------------------------------------------
+
+// Q126 - Check if file exists, if yes print content, else show error.
+#include <stdio.h>
+#include <string.h>
+
+int main_Q126(void){
+    char file[200];
+    fgets(file,200,stdin);
+    file[strcspn(file,"\n")] = 0;
+
+    FILE *fp = fopen(file,"r");
+    if(!fp){ printf("Error opening file.\n"); return 0; }
+
+    int c;
+    while((c=fgetc(fp))!=EOF) putchar(c);
+
+    fclose(fp);
+    return 0;
+}
+int main126(){ return main_Q126(); }
+
+// --------------------------------------------------------------
+
+// Q127 - Convert all lowercase in input.txt to uppercase in output.txt.
+#include <stdio.h>
+#include <ctype.h>
+
+int main_Q127(void){
+    FILE *in = fopen("input.txt","r");
+    if(!in){ printf("Error\n"); return 0; }
+
+    FILE *out = fopen("output.txt","w");
+    if(!out){ fclose(in); printf("Error\n"); return 0; }
+
+    int c;
+    while((c=fgetc(in))!=EOF){
+        if(islower(c)) c=toupper(c);
+        fputc(c,out);
+    }
+
+    fclose(in);
+    fclose(out);
+    return 0;
+}
+int main127(){ return main_Q127(); }
+
+// --------------------------------------------------------------
+
+// Q128 - Count vowels and consonants in file.
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int main_Q128(void){
+    char file[200];
+    fgets(file,200,stdin);
+    file[strcspn(file,"\n")] = 0;
+
+    FILE *fp = fopen(file,"r");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    int c,v=0,co=0;
+    while((c=fgetc(fp))!=EOF){
+        if(isalpha(c)){
+            char x=tolower(c);
+            if(x=='a'||x=='e'||x=='i'||x=='o'||x=='u') v++;
+            else co++;
+        }
+    }
+
+    fclose(fp);
+    printf("%d %d\n", v, co);
+    return 0;
+}
+int main128(){ return main_Q128(); }
+
+// --------------------------------------------------------------
+
+// Q129 - Read integers from numbers.txt, print sum and average.
+#include <stdio.h>
+
+int main_Q129(void){
+    FILE *fp=fopen("numbers.txt","r");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    long long x,sum=0;
+    int cnt=0;
+
+    while(fscanf(fp,"%lld",&x)==1){
+        sum+=x;
+        cnt++;
+    }
+
+    fclose(fp);
+
+    if(cnt==0){ printf("0 0\n"); return 0; }
+    printf("%lld %.2f\n",sum,(double)sum/cnt);
+    return 0;
+}
+int main129(){ return main_Q129(); }
+
+// --------------------------------------------------------------
+
+// Q130 - Store student records to file and read them back.
+#include <stdio.h>
+
+struct StudentRec { char name[100]; int roll; float marks; };
+
+int main_Q130(void){
+    int n; scanf("%d",&n);
+    struct StudentRec s;
+
+    FILE *fp=fopen("students.txt","w");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    for(int i=0;i<n;i++){
+        scanf("%s %d %f", s.name,&s.roll,&s.marks);
+        fprintf(fp,"%s %d %.2f\n",s.name,s.roll,s.marks);
+    }
+    fclose(fp);
+
+    fp=fopen("students.txt","r");
+    if(!fp){ printf("Error\n"); return 0; }
+
+    while(fscanf(fp,"%s %d %f", s.name,&s.roll,&s.marks)==3)
+        printf("%s %d %.2f\n",s.name,s.roll,s.marks);
+
+    fclose(fp);
+    return 0;
+}
+int main130(){ return main_Q130(); }
+
+// --------------------------------------------------------------
