@@ -1,0 +1,186 @@
+// Q131 - Enum for days (SUNDAY to SATURDAY) and print their integer values.
+#include <stdio.h>
+
+enum Day { SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY };
+
+int main_Q131(void){
+    for(int d=SUNDAY; d<=SATURDAY; d++)
+        printf("%d\n", d);
+    return 0;
+}
+int main(){ return main_Q131(); }
+
+// --------------------------------------------------------------
+
+// Q132 - Enum for traffic lights (RED, YELLOW, GREEN). Print Stop/Wait/Go.
+#include <stdio.h>
+
+enum Light { RED, YELLOW, GREEN };
+
+int main_Q132(void){
+    int x; scanf("%d",&x);
+    switch(x){
+        case RED: printf("Stop\n"); break;
+        case YELLOW: printf("Wait\n"); break;
+        case GREEN: printf("Go\n"); break;
+        default: printf("Invalid\n");
+    }
+    return 0;
+}
+int main132(){ return main_Q132(); }
+
+// --------------------------------------------------------------
+
+// Q133 - Enum for months (JAN–DEC). Print how many days each month has.
+#include <stdio.h>
+
+enum Month { JAN=1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
+
+int main_Q133(void){
+    int m; scanf("%d",&m);
+    int days;
+    switch(m){
+        case JAN: days=31; break;
+        case FEB: days=28; break;
+        case MAR: days=31; break;
+        case APR: days=30; break;
+        case MAY: days=31; break;
+        case JUN: days=30; break;
+        case JUL: days=31; break;
+        case AUG: days=31; break;
+        case SEP: days=30; break;
+        case OCT: days=31; break;
+        case NOV: days=30; break;
+        case DEC: days=31; break;
+        default: printf("Invalid\n"); return 0;
+    }
+    printf("%d\n", days);
+    return 0;
+}
+int main133(){ return main_Q133(); }
+
+// --------------------------------------------------------------
+
+// Q134 - Enum with SUCCESS, FAILURE, TIMEOUT; print messages accordingly.
+#include <stdio.h>
+
+enum Status { SUCCESS, FAILURE, TIMEOUT };
+
+int main_Q134(void){
+    int s; scanf("%d",&s);
+    switch(s){
+        case SUCCESS: printf("Operation successful.\n"); break;
+        case FAILURE: printf("Operation failed.\n"); break;
+        case TIMEOUT: printf("Operation timed out.\n"); break;
+        default: printf("Invalid\n");
+    }
+    return 0;
+}
+int main134(){ return main_Q134(); }
+
+// --------------------------------------------------------------
+
+// Q135 - Enum with explicit values starting from 10; print them.
+#include <stdio.h>
+
+enum Code { A=10, B, C, D, E };
+
+int main_Q135(void){
+    printf("%d %d %d %d %d\n", A, B, C, D, E);
+    return 0;
+}
+int main135(){ return main_Q135(); }
+
+// --------------------------------------------------------------
+
+// Q136 - Enum menu: ADD, SUBTRACT, MULTIPLY; perform the chosen operation.
+#include <stdio.h>
+
+enum Menu { ADD=1, SUBTRACT, MULTIPLY };
+
+int main_Q136(void){
+    int c; long long a,b;
+    scanf("%d %lld %lld",&c,&a,&b);
+
+    switch(c){
+        case ADD: printf("%lld\n", a+b); break;
+        case SUBTRACT: printf("%lld\n", a-b); break;
+        case MULTIPLY: printf("%lld\n", a*b); break;
+        default: printf("Invalid\n");
+    }
+    return 0;
+}
+int main136(){ return main_Q136(); }
+
+// --------------------------------------------------------------
+
+// Q137 - Enum for user roles (ADMIN, USER, GUEST) and print a message.
+#include <stdio.h>
+
+enum Role { ADMIN=1, USER, GUEST };
+
+int main_Q137(void){
+    int r; scanf("%d",&r);
+    switch(r){
+        case ADMIN: printf("Welcome, Admin.\n"); break;
+        case USER: printf("Welcome, User.\n"); break;
+        case GEST: printf("Welcome, Guest.\n"); break;
+        default: printf("Invalid\n");
+    }
+    return 0;
+}
+int main137(){ return main_Q137(); }
+
+// --------------------------------------------------------------
+
+// Q138 - Print all enum integer values using a loop.
+#include <stdio.h>
+
+enum Days2 { D_SUN, D_MON, D_TUE, D_WED, D_THU, D_FRI, D_SAT };
+
+int main_Q138(void){
+    for(int i=D_SUN; i<=D_SAT; i++)
+        printf("%d\n", i);
+    return 0;
+}
+int main138(){ return main_Q138(); }
+
+// --------------------------------------------------------------
+
+// Q139 - Show enum values (demonstrate they are integers).
+#include <stdio.h>
+
+enum Example { X=5, Y=10, Z=25 };
+
+int main_Q139(void){
+    printf("%d %d %d\n", X, Y, Z);
+    return 0;
+}
+int main139(){ return main_Q139(); }
+
+// --------------------------------------------------------------
+
+// Q140 - Struct with enum Gender; print person’s gender.
+#include <stdio.h>
+
+enum Gender { MALE, FEMALE, OTHER };
+
+struct Person {
+    char name[100];
+    int age;
+    enum Gender g;
+};
+
+int main_Q140(void){
+    struct Person p;
+    scanf("%s %d %d", p.name, &p.age, (int*)&p.g);
+
+    if(p.g == MALE) printf("%s is Male\n", p.name);
+    else if(p.g == FEMALE) printf("%s is Female\n", p.name);
+    else printf("%s is Other\n", p.name);
+
+    return 0;
+}
+int main140(){ return main_Q140(); }
+
+// --------------------------------------------------------------
