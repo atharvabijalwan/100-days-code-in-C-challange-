@@ -1,0 +1,277 @@
+// Q141 - Structure Student (name, roll_no, marks). Read and print one student.
+#include <stdio.h>
+
+struct Student {
+    char name[100];
+    int roll_no;
+    float marks;
+};
+
+int main_Q141(void){
+    struct Student s;
+    scanf("%s %d %f", s.name, &s.roll_no, &s.marks);
+    printf("%s %d %.2f\n", s.name, s.roll_no, s.marks);
+    return 0;
+}
+int main(){ return main_Q141(); }
+
+// --------------------------------------------------------------
+
+// Q142 - Store details of 5 students in array of structures and print all.
+#include <stdio.h>
+
+struct Stud {
+    char name[100];
+    int roll;
+    float marks;
+};
+
+int main_Q142(void){
+    struct Stud a[5];
+    for(int i=0;i<5;i++)
+        scanf("%s %d %f", a[i].name, &a[i].roll, &a[i].marks);
+
+    for(int i=0;i<5;i++)
+        printf("%s %d %.2f\n", a[i].name, a[i].roll, a[i].marks);
+
+    return 0;
+}
+int main142(){ return main_Q142(); }
+
+// --------------------------------------------------------------
+
+// Q143 - Find and print the student with the highest marks.
+#include <stdio.h>
+#include <stdlib.h>
+
+struct S143 {
+    char name[100];
+    int roll;
+    float marks;
+};
+
+int main_Q143(void){
+    int n; scanf("%d",&n);
+    struct S143 *a = malloc(n * sizeof(struct S143));
+
+    for(int i=0;i<n;i++)
+        scanf("%s %d %f", a[i].name, &a[i].roll, &a[i].marks);
+
+    int best = 0;
+    for(int i=1;i<n;i++)
+        if(a[i].marks > a[best].marks)
+            best = i;
+
+    printf("%s %d %.2f\n", a[best].name, a[best].roll, a[best].marks);
+    free(a);
+    return 0;
+}
+int main143(){ return main_Q143(); }
+
+// --------------------------------------------------------------
+
+// Q144 - Function that accepts a structure and prints its members.
+#include <stdio.h>
+
+struct P144 {
+    char name[100];
+    int id;
+    float score;
+};
+
+void printP144(struct P144 x){
+    printf("%s %d %.2f\n", x.name, x.id, x.score);
+}
+
+int main_Q144(void){
+    struct P144 p;
+    scanf("%s %d %f", p.name, &p.id, &p.score);
+    printP144(p);
+    return 0;
+}
+int main144(){ return main_Q144(); }
+
+// --------------------------------------------------------------
+
+// Q145 - Return a structure (top student) from a function.
+#include <stdio.h>
+#include <stdlib.h>
+
+struct ST145 {
+    char name[100];
+    int roll;
+    float marks;
+};
+
+struct ST145 topStudent(struct ST145 arr[], int n){
+    int best = 0;
+    for(int i=1;i<n;i++)
+        if(arr[i].marks > arr[best].marks)
+            best = i;
+    return arr[best];
+}
+
+int main_Q145(void){
+    int n; scanf("%d",&n);
+    struct ST145 *a = malloc(n * sizeof(struct ST145));
+
+    for(int i=0;i<n;i++)
+        scanf("%s %d %f", a[i].name, &a[i].roll, &a[i].marks);
+
+    struct ST145 t = topStudent(a, n);
+    printf("%s %d %.2f\n", t.name, t.roll, t.marks);
+
+    free(a);
+    return 0;
+}
+int main145(){ return main_Q145(); }
+
+// --------------------------------------------------------------
+
+// Q146 - Employee structure with nested Date structure.
+#include <stdio.h>
+
+struct Date146 { int d, m, y; };
+
+struct Emp146 {
+    char name[100];
+    int id;
+    struct Date146 join;
+};
+
+int main_Q146(void){
+    struct Emp146 e;
+    scanf("%s %d %d %d %d", e.name, &e.id, &e.join.d, &e.join.m, &e.join.y);
+    printf("%s %d %02d-%02d-%04d\n", e.name, e.id, e.join.d, e.join.m, e.join.y);
+    return 0;
+}
+int main146(){ return main_Q146(); }
+
+// --------------------------------------------------------------
+
+// Q147 - Store employee data in a binary file using fwrite() and read using fread().
+#include <stdio.h>
+
+struct EMP147 {
+    char name[100];
+    int id;
+    double salary;
+};
+
+int main_Q147(void){
+    int n; scanf("%d",&n);
+    struct EMP147 e;
+
+    FILE *fw = fopen("employees.bin","wb");
+    if(!fw){ printf("Error\n"); return 0; }
+
+    for(int i=0;i<n;i++){
+        scanf("%s %d %lf", e.name, &e.id, &e.salary);
+        fwrite(&e, sizeof(e), 1, fw);
+    }
+    fclose(fw);
+
+    FILE *fr = fopen("employees.bin","rb");
+    if(!fr){ printf("Error\n"); return 0; }
+
+    while(fread(&e, sizeof(e), 1, fr) == 1)
+        printf("%s %d %.2f\n", e.name, e.id, e.salary);
+
+    fclose(fr);
+    return 0;
+}
+int main147(){ return main_Q147(); }
+
+// --------------------------------------------------------------
+// Q148 - Take two structs as input and check if they are identical.
+#include <stdio.h>
+#include <string.h>
+
+struct Data148 {
+    char name[100];
+    int id;
+    float score;
+};
+
+int main_Q148(void){
+    struct Data148 a, b;
+
+    // Input format example:
+    // name id score
+    // name id score
+    scanf("%s %d %f", a.name, &a.id, &a.score);
+    scanf("%s %d %f", b.name, &b.id, &b.score);
+
+    if(strcmp(a.name, b.name)==0 && a.id == b.id && a.score == b.score)
+        printf("Identical\n");
+    else
+        printf("Not Identical\n");
+
+    return 0;
+}
+int main(){ return main_Q148(); }
+
+// --------------------------------------------------------------
+// Q149 - Use malloc() to allocate structure memory dynamically and print details.
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+
+struct Student149 {
+
+    char name[100];
+
+    int roll;
+
+    float marks;
+
+};
+
+
+
+int main_Q149(void){
+
+    struct Student149 *s;
+
+
+
+    // Allocate memory dynamically
+
+    s = (struct Student149*)malloc(sizeof(struct Student149));
+
+    if(s == NULL){
+
+        printf("Memory Allocation Failed\n");
+
+        return 0;
+
+    }
+
+
+
+    // Input format: name roll marks
+
+    scanf("%s %d %f", s->name, &s->roll, &s->marks);
+
+
+
+    // Print details
+
+    printf("%s %d %.2f\n", s->name, s->roll, s->marks);
+
+
+
+    free(s); // release memory
+
+    return 0;
+
+}
+
+int main(){ return main_Q149(); }
+
+
+
+// --------------------------------------------------------------
